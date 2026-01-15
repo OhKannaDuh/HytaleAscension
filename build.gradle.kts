@@ -15,11 +15,14 @@ java {
 
 repositories { mavenCentral() }
 
-val hytaleRoot = file("C:/Code/hytale-mods")
-val filesDir = hytaleRoot.resolve("files")
-val serverJar = filesDir.resolve("HytaleServer.jar")
-val assetsZip = filesDir.resolve("Assets.zip")
+val filesDir = file("C:/Code/hytale-mods/files")
 val modsDir = filesDir.resolve("dev-mods")
+
+val appData = System.getenv("APPDATA") ?: error("APPDATA environment variable not set")
+val installRoot = file(appData).resolve("Hytale/install/release/package/game/latest")
+
+val serverJar = installRoot.resolve("Server/HytaleServer.jar")
+val assetsZip = installRoot.resolve("Assets.zip")
 
 
 dependencies {

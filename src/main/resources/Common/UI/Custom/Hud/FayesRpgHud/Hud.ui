@@ -1,0 +1,59 @@
+@Padding = 12;
+
+@LevelSize = 18;
+@ExpSize = 16;
+
+@BarSize = 12;
+@BarSpacing = 6;
+@BarWidth = 318;
+
+Group #FayesRpgHud {
+  LayoutMode: Left;
+  Anchor: (Left: @Padding, Bottom: @Padding);
+
+  Group #Content {
+    LayoutMode: Bottom;
+
+    // Unspent Row
+    Group {
+      Anchor: (Width: @BarWidth);
+
+      Label #SkillPoints {
+        Anchor: (Left: 0);
+        Style: LabelStyle(FontSize: @LevelSize);
+        Text: "Unspent Skill Points: 0";
+      }
+    }
+
+    // Level/Exp row
+    Group {
+      Anchor: (Width: @BarWidth);
+
+      Label #Level {
+        Anchor: (Left: 0);
+        Style: LabelStyle(FontSize: @LevelSize);
+        Text: "Level: 0";
+      }
+
+      Label #Exp {
+        Anchor: (Right: 0);
+        Padding: (Top: 2);
+        Style: LabelStyle(FontSize: @ExpSize, HorizontalAlignment: End);
+        Text: "0 / 0";
+      }
+  }
+
+
+    // Bar Spacing
+    Group { Anchor: (Height: @BarSpacing); }
+
+    // Bar
+    Group {
+      Anchor: (Width: @BarWidth, Height: @BarSize);
+      Background: "LeftBarBackground.png";
+
+      ProgressBar #ExpBar { BarTexturePath: "ExpBarFill.png"; }
+      ProgressBar #ExpBarEffect { BarTexturePath: "LeftBarEffect.png"; }
+    }
+  }
+}

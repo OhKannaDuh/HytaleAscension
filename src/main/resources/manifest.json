@@ -1,0 +1,18 @@
+{
+  "Group": "Faye",
+  "Name": "Ascension",
+  "Version": "0.1.0",
+  "Description": "Add's RPG-style leveling and progression systems.",
+  "Authors": [
+    {
+      "Name": "Faye"
+    }
+  ],
+  "Website": "https://github.com/ohkannaduh/HytaleAscension",
+  "ServerVersion": "*",
+  "Dependencies": {},
+  "OptionalDependencies": {},
+  "DisabledByDefault": false,
+  "IncludesAssetPack": true,
+  "Main": "faye.rpg.Plugin"
+}

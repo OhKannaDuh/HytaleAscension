@@ -1,18 +1,20 @@
-package faye.rpg.components;
+package faye.rpg.modules.stats.components;
 
 import com.hypixel.hytale.codec.Codec;
 import com.hypixel.hytale.codec.KeyedCodec;
 import com.hypixel.hytale.codec.builder.BuilderCodec;
 import com.hypixel.hytale.component.Component;
 import com.hypixel.hytale.component.ComponentType;
-import com.hypixel.hytale.server.core.entity.Frozen;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import faye.rpg.data.LevelManager;
+import faye.rpg.components.ComponentManager;
+import faye.rpg.components.IAscensionComponent;
+import faye.rpg.modules.stats.data.LevelManager;
+import faye.rpg.modules.stats.data.StatId;
 
 ///  A component for tracking level and exp
-public class RpgStatsComponent implements Component<EntityStore> {
-    public static final BuilderCodec<RpgStatsComponent> CODEC = BuilderCodec
-            .builder(RpgStatsComponent.class, RpgStatsComponent::new)
+public class AscensionStats implements IAscensionComponent<AscensionStats>, Component<EntityStore> {
+    public static final BuilderCodec<AscensionStats> CODEC = BuilderCodec
+            .builder(AscensionStats.class, AscensionStats::new)
             .append(
                     new KeyedCodec<>("TotalExp", Codec.INTEGER),
                     (d, v) -> d.totalExp = v,
@@ -86,12 +88,15 @@ public class RpgStatsComponent implements Component<EntityStore> {
         totalExp = amount;
     }
 
-    public void addExp(int amount) {
+    public boolean addExp(int amount) {
         if (amount <= 0) {
-            return;
+            return false;
         }
 
+        var before = getLevel();
         totalExp += amount;
+
+        return getLevel() > before;
     }
 
     public int getVitality() {
@@ -150,6 +155,30 @@ public class RpgStatsComponent implements Component<EntityStore> {
         luck += amount;
     }
 
+    public void adjustStat(StatId id, int amount) {
+        switch (id) {
+            case Vitality -> addVitality(amount);
+            case Strength -> addStrength(amount);
+            case Wisdom -> addWisdom(amount);
+            case Intelligence -> addIntelligence(amount);
+            case Defense -> addDefense(amount);
+            case Dexterity -> addDexterity(amount);
+            case Luck -> addLuck(amount);
+        }
+    }
+
+    public int getStat(StatId id) {
+        return switch (id) {
+            case Vitality -> getVitality();
+            case Strength -> getStrength();
+            case Wisdom -> getWisdom();
+            case Intelligence -> getIntelligence();
+            case Defense -> getDefense();
+            case Dexterity -> getDexterity();
+            case Luck -> getLuck();
+        };
+    }
+
     public int getLevel() {
         return LevelManager.getLevelFromTotalExp(totalExp);
     }
@@ -182,7 +211,7 @@ public class RpgStatsComponent implements Component<EntityStore> {
 
     @Override
     public Component<EntityStore> clone() {
-        RpgStatsComponent copy = new RpgStatsComponent();
+        AscensionStats copy = new AscensionStats();
         copy.totalExp = this.totalExp;
         copy.vitality = this.vitality;
         copy.strength = this.strength;
@@ -192,5 +221,29 @@ public class RpgStatsComponent implements Component<EntityStore> {
         copy.dexterity = this.dexterity;
         copy.luck = this.luck;
         return copy;
+    }
+
+    private static ComponentType<EntityStore, AscensionStats> TYPE;
+    public static ComponentType<EntityStore, AscensionStats> getComponentType() {
+        if (TYPE == null) {
+            TYPE = ComponentManager.get(AscensionStats.class);
+        }
+
+        return TYPE;
+    }
+
+    @Override
+    public Class<AscensionStats> componentClass() {
+        return AscensionStats.class;
+    }
+
+    @Override
+    public String id() {
+        return "Ascension:RpgStats";
+    }
+
+    @Override
+    public BuilderCodec<AscensionStats> codec() {
+        return AscensionStats.CODEC;
     }
 }

@@ -3,10 +3,42 @@ package faye.rpg;
 import com.google.inject.AbstractModule;
 import com.google.inject.Scopes;
 import com.google.inject.multibindings.Multibinder;
+import faye.rpg.commands.IAscensionSubcommand;
+import faye.rpg.components.IAscensionComponent;
+import faye.rpg.events.IAscensionEventHandler;
 import faye.rpg.lifecycle.hooks.*;
+import faye.rpg.systems.IAscensionEntitySystem;
+import faye.rpg.ui.IAscensionHudElementFactory;
 
 public abstract class DependencyModule extends AbstractModule {
-    protected  <T> void autowire(Class<T> impl) {
+    @Override
+    protected void configure() {
+        registerSubcommands(Multibinder.newSetBinder(binder(), IAscensionSubcommand.class));
+        registerComponents(Multibinder.newSetBinder(binder(), IAscensionComponent.class));
+        registerEventHandlers(Multibinder.newSetBinder(binder(), IAscensionEventHandler.class));
+        registerEntitySystems(Multibinder.newSetBinder(binder(), IAscensionEntitySystem.class));
+        registerHudElementFactories(Multibinder.newSetBinder(binder(), IAscensionHudElementFactory.class));
+        register();
+    }
+
+    protected void registerSubcommands(Multibinder<IAscensionSubcommand> binder) {
+    }
+
+    protected void registerComponents(Multibinder<IAscensionComponent> binder) {
+    }
+
+    protected void registerEventHandlers(Multibinder<IAscensionEventHandler> binder) {
+    }
+
+    protected void registerEntitySystems(Multibinder<IAscensionEntitySystem> binder) {
+    }
+
+    protected void registerHudElementFactories(Multibinder<IAscensionHudElementFactory> binder) {
+    }
+
+    protected abstract void register();
+
+    protected <T> void autowire(Class<T> impl) {
         bind(impl).in(Scopes.SINGLETON);
 
         if (IOnPreSetup.class.isAssignableFrom(impl)) {

@@ -1,10 +1,13 @@
 package faye.rpg;
 
 import com.google.inject.Scopes;
+import com.google.inject.multibindings.Multibinder;
 import faye.rpg.commands.CommandModule;
 import faye.rpg.components.ComponentModule;
 import faye.rpg.events.EventModule;
+import faye.rpg.events.IAscensionEventHandler;
 import faye.rpg.lifecycle.LifecycleModule;
+import faye.rpg.modules.ModuleManagerModule;
 import faye.rpg.systems.SystemModule;
 
 public class Bootstrapper extends DependencyModule {
@@ -15,7 +18,7 @@ public class Bootstrapper extends DependencyModule {
     }
 
     @Override
-    protected void configure() {
+    protected void register() {
         // Core
         install(new PluginModule(plugin));
         install(new LifecycleModule());
@@ -23,9 +26,7 @@ public class Bootstrapper extends DependencyModule {
         install(new ComponentModule());
         install(new EventModule());
         install(new SystemModule());
-
-        // @todo put in module manager
-//        install(new DebugModule());
+        install(new ModuleManagerModule());
 
         bind(Plugin.class).toInstance(plugin);
         bind(Logger.class).in(Scopes.SINGLETON);

@@ -1,9 +1,13 @@
 package faye.rpg;
 
 import com.google.inject.Guice;
+import com.hypixel.hytale.server.core.HytaleServer;
 import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
+import com.hypixel.hytale.server.core.universe.Universe;
+import faye.rpg.components.ComponentManager;
 import faye.rpg.lifecycle.LifecycleManager;
+import faye.rpg.modules.party.components.PartyComponentManager;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 
 public class Plugin extends JavaPlugin {
@@ -19,9 +23,16 @@ public class Plugin extends JavaPlugin {
 
         lifecycle = injector.getInstance(LifecycleManager.class);
 
+        injector.getInstance(ComponentManager.class);
+        injector.getInstance(PartyComponentManager.class);
+
         lifecycle.preSetup();
         lifecycle.setup();
         lifecycle.postSetup();
+
+        Universe universe = Universe.get();
+        var world = universe.getDefaultWorld();
+
     }
 
     @Override

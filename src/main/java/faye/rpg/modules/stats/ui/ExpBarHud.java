@@ -1,33 +1,34 @@
-package faye.rpg.ui;
+package faye.rpg.modules.stats.ui;
 
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.entity.entities.player.hud.CustomUIHud;
 import com.hypixel.hytale.server.core.ui.builder.UICommandBuilder;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
-import faye.rpg.components.RpgStatsComponent;
-import faye.rpg.data.LevelManager;
+import faye.rpg.modules.stats.components.AscensionStats;
+import faye.rpg.ui.IAscensionHudElement;
+import faye.rpg.ui.IAscensionHudElementFactory;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 import javax.annotation.Nonnull;
 
-public final class Hud extends CustomUIHud {
+public final class ExpBarHud extends CustomUIHud implements IAscensionHudElement {
     private int level = 1;
     private int exp = 0;
     private int expToNextLevel = 100;
 
     private int unspentSkillPoints = 0;
 
-    public Hud(@Nonnull PlayerRef playerRef) {
+    public ExpBarHud(PlayerRef playerRef) {
         super(playerRef);
-        this.expToNextLevel = LevelManager.getRequiredExpForLevelUpAt(level);
     }
 
     @Override
     protected void build(@Nonnull UICommandBuilder ui) {
-        ui.append( "Hud/FayesRpgHud/Hud.ui");
+        ui.append("Hud/ExpBar/ExpBar.ui");
         updateUiValues(ui);
     }
 
-    public void updateFromComponent(RpgStatsComponent rpg) {
+    public void updateFromComponent(AscensionStats rpg) {
         this.level = rpg.getLevel();
         this.exp = rpg.getExpIntoLevel();
         this.expToNextLevel = rpg.getRequiredExpForLevelUpAt();
@@ -40,6 +41,7 @@ public final class Hud extends CustomUIHud {
 
     private void updateUiValues(UICommandBuilder ui) {
         ui.set("#Content #SkillPoints.TextSpans", Message.raw("Unspent Skill Points: " + unspentSkillPoints));
+        ui.set("#Content #SkillPoints.Visible", unspentSkillPoints > 0);
         ui.set("#Content #Level.TextSpans", Message.raw("Level: " + level));
         ui.set("#Content #Exp.TextSpans", Message.raw(exp + " / " + expToNextLevel));
         ui.set("#Content #ExpBar.Value", getExpProgress());
@@ -47,9 +49,19 @@ public final class Hud extends CustomUIHud {
     }
 
     private float getExpProgress() {
-        return  (expToNextLevel <= 0) ? 0f : Math.min(1f, exp / (float) expToNextLevel);
+        return (expToNextLevel <= 0) ? 0f : Math.min(1f, exp / (float) expToNextLevel);
+    }
+
+    @Override
+    public void buildHud(@NonNull UICommandBuilder ui) {
+        this.build(ui);
+    }
+
+    public static class Factory implements IAscensionHudElementFactory {
+        @Override
+        public IAscensionHudElement create(PlayerRef ref) {
+            return new ExpBarHud(ref);
+        }
     }
 }
-
-
 

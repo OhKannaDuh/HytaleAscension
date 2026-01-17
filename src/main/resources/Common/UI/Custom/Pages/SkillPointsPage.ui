@@ -1,0 +1,76 @@
+$UI = "../Common.ui";
+
+@ButtonSize = 32;
+@FontSize = 18;
+@FontPadding = 4;
+
+@SkillControl = Group {
+  LayoutMode: Left;
+  Padding: (Bottom: 6);
+
+  $UI.@SecondaryTextButton #SubButton {
+    @Text = "-";
+    Anchor: (Width: @ButtonSize, Height: @ButtonSize);
+  }
+
+  $UI.@SecondaryTextButton #AddButton {
+    @Text = "+";
+    Anchor: (Width: @ButtonSize, Height: @ButtonSize);
+  }
+
+  Label #Label {
+    Padding: (Left: 6, Top: @FontPadding);
+    Style: LabelStyle(FontSize: @FontSize, HorizontalAlignment: End);
+    Text: @Label;
+  }
+};
+
+$UI.@PageOverlay {
+  $UI.@Container {
+    Anchor: (Width: 320, Vertical: 1, Top: 0, Left: 0);
+
+    #Title {
+      Group {
+        $UI.@Title {
+          @Text = "Skill Points";
+        }
+
+        $UI.@CloseButton #CloseButton {
+            Anchor: (Top: 0, Right: 0, Width: 32, Height: 32);}
+      }
+    }
+
+    #Content {
+      LayoutMode: Left;
+
+      Group #StatInfo {
+        FlexWeight: 1;
+        LayoutMode: Top;
+        Padding: (Left: 10);
+        ScrollbarStyle: $UI.@DefaultScrollbarStyle;
+
+      Label #PointCounter {
+        Style: LabelStyle(FontSize: @FontSize);
+        Text: "Points Remaining: 0 / 0";
+      }
+
+        Group #StatSection {
+          Anchor: (Top: 10);
+          LayoutMode: Top;
+
+          Group #Stats {
+            LayoutMode: Top;
+
+            @SkillControl #VitalityControl { @Label = "Vitality (0)"; }
+            @SkillControl #StrengthControl { @Label = "Strength (0)"; }
+            @SkillControl #WisdomControl { @Label = "Wisdom (0)"; }
+            @SkillControl #IntelligenceControl { @Label = "Intelligence (0)"; }
+            @SkillControl #DefenseControl { @Label = "Defense (0)"; }
+            @SkillControl #DexterityControl { @Label = "Dexterity (0)"; }
+            @SkillControl #LuckControl { @Label = "Luck (0)"; }
+          }
+        }
+      }
+    }
+  }
+}

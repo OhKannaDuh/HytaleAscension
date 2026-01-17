@@ -1,0 +1,11 @@
+@Width = 325;
+
+Group #PartyList {
+    LayoutMode: Top;
+    Anchor: (Top: 16, Left: 16, Width: @Width);
+
+    Group #Members {
+       LayoutMode: Top;
+       Anchor: (Width: @Width);
+    }
+}

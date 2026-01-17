@@ -1,4 +1,4 @@
-package faye.rpg.data;
+package faye.rpg.modules.stats.data;
 
 import java.util.Map;
 import java.util.NavigableMap;

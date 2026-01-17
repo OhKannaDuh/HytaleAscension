@@ -10,16 +10,16 @@ import java.util.Set;
 
 public class SystemManager implements IOnPostSetup {
     private final ComponentRegistryProxy<EntityStore> registry;
-    private final Set<ISystem<EntityStore>> systems;
+    private final Set<IAscensionEntitySystem> systems;
 
     @Inject
-    public SystemManager(ComponentRegistryProxy<EntityStore> registry, Set<ISystem<EntityStore>> systems) {
+    public SystemManager(ComponentRegistryProxy<EntityStore> registry, Set<IAscensionEntitySystem> systems) {
         this.registry = registry;
         this.systems = systems;
     }
 
     @Override
     public void postSetup() {
-        systems.forEach(registry::registerSystem);
+        systems.forEach(s -> registry.registerSystem(s.toSystem()));
     }
 }

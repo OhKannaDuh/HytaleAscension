@@ -8,13 +8,7 @@ import faye.rpg.DependencyModule;
 
 public class ComponentModule extends DependencyModule {
     @Override
-    protected void configure() {
+    protected void register() {
         autowire(ComponentManager.class);
-    }
-
-    @Provides
-    @Singleton
-    ComponentType<EntityStore, RpgStatsComponent> provideRpgComponentType(ComponentManager mgr) {
-        return mgr.rpgType();
     }
 }

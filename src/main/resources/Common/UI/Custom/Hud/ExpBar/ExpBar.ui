@@ -5,9 +5,9 @@
 
 @BarSize = 12;
 @BarSpacing = 6;
-@BarWidth = 318;
+@BarWidth = 325;
 
-Group #FayesRpgHud {
+Group {
   LayoutMode: Left;
   Anchor: (Left: @Padding, Bottom: @Padding);
 
@@ -50,10 +50,10 @@ Group #FayesRpgHud {
     // Bar
     Group {
       Anchor: (Width: @BarWidth, Height: @BarSize);
-      Background: "LeftBarBackground.png";
+      Background: "../LeftBarBackground.png";
 
       ProgressBar #ExpBar { BarTexturePath: "ExpBarFill.png"; }
-      ProgressBar #ExpBarEffect { BarTexturePath: "LeftBarEffect.png"; }
+      ProgressBar #ExpBarEffect { BarTexturePath: "../LeftBarEffect.png"; }
     }
   }
 }

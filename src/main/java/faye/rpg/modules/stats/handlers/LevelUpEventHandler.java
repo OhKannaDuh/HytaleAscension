@@ -1,10 +1,11 @@
-package faye.rpg.modules.stats.events;
+package faye.rpg.modules.stats.handlers;
 
 import com.google.inject.Inject;
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.util.EventTitleUtil;
 import faye.rpg.Logger;
-import faye.rpg.events.IAscensionEventHandler;
+import faye.rpg.handlers.IAscensionEventHandler;
+import faye.rpg.modules.stats.events.LevelUpEvent;
 
 public class LevelUpEventHandler implements IAscensionEventHandler<LevelUpEvent> {
     private final Logger logger;
@@ -23,8 +24,6 @@ public class LevelUpEventHandler implements IAscensionEventHandler<LevelUpEvent>
 
     @Override
     public void execute(LevelUpEvent event) {
-        logger.info("Handling level up event...");
-
         EventTitleUtil.showEventTitleToPlayer(
                 event.getPlayer(),
                 Message.raw("Level Up!"),

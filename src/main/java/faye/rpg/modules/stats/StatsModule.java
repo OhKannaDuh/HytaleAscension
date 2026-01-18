@@ -5,12 +5,10 @@ import com.google.inject.multibindings.Multibinder;
 import faye.rpg.DependencyModule;
 import faye.rpg.commands.IAscensionSubcommand;
 import faye.rpg.components.IAscensionComponent;
-import faye.rpg.events.IAscensionEventHandler;
-import faye.rpg.modules.stats.commands.SkillPointsCommand;
-import faye.rpg.modules.stats.components.AscensionStats;
-import faye.rpg.modules.stats.events.AddExpBarHudHandler;
-import faye.rpg.modules.stats.events.AddRpgStatsHandler;
-import faye.rpg.modules.stats.events.LevelUpEventHandler;
+import faye.rpg.handlers.IAscensionEventHandler;
+import faye.rpg.modules.stats.commands.OpenAttributePointsPageCommand;
+import faye.rpg.modules.stats.components.AscensionExp;
+import faye.rpg.modules.stats.handlers.*;
 import faye.rpg.modules.stats.systems.PlayerDamageEntitySystem;
 import faye.rpg.modules.stats.systems.PlayerDeathSystem;
 import faye.rpg.systems.IAscensionEntitySystem;
@@ -20,11 +18,15 @@ import faye.rpg.ui.IAscensionHudElementFactory;
 public class StatsModule extends DependencyModule {
     @Override
     protected void register() {
+//        var modifiers = Multibinder.newSetBinder(binder(), IAscensionModifier.class);
+
+        autowire(faye.rpg.modules.stats.data.AscensionStats.class);
+        autowire(LoadedEntityStatTypeAssetHandler.class);
     }
 
     @Override
     protected void registerComponents(Multibinder<IAscensionComponent> binder) {
-        binder.addBinding().to(AscensionStats.class);
+        binder.addBinding().to(AscensionExp.class);
     }
 
     @Override
@@ -35,7 +37,7 @@ public class StatsModule extends DependencyModule {
 
     @Override
     protected void registerSubcommands(Multibinder<IAscensionSubcommand> binder) {
-        binder.addBinding().to(SkillPointsCommand.class).in(Scopes.SINGLETON);
+        binder.addBinding().to(OpenAttributePointsPageCommand.class).in(Scopes.SINGLETON);
     }
 
     @Override
@@ -43,6 +45,7 @@ public class StatsModule extends DependencyModule {
         binder.addBinding().to(AddRpgStatsHandler.class);
         binder.addBinding().to(AddExpBarHudHandler.class);
         binder.addBinding().to(LevelUpEventHandler.class);
+        binder.addBinding().to(AttributePointsAssignmentChangedEventHandler.class);
     }
 
     @Override

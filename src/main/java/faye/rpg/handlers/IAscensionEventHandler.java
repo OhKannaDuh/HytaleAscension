@@ -1,4 +1,4 @@
-package faye.rpg.events;
+package faye.rpg.handlers;
 
 import java.util.function.Consumer;
 

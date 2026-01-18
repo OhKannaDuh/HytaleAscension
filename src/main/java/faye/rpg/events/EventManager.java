@@ -3,6 +3,7 @@ package faye.rpg.events;
 import com.google.inject.Inject;
 import com.hypixel.hytale.event.EventRegistry;
 import faye.rpg.Logger;
+import faye.rpg.handlers.IAscensionEventHandler;
 import faye.rpg.lifecycle.hooks.IOnPostSetup;
 
 import java.util.Set;

@@ -1,25 +1,18 @@
 package faye.rpg.modules.party.commands;
 
 import com.google.inject.Inject;
-import com.hypixel.hytale.component.ComponentType;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
-import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.command.system.CommandContext;
 import com.hypixel.hytale.server.core.command.system.basecommands.AbstractPlayerCommand;
-import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import com.hypixel.hytale.server.core.util.EventTitleUtil;
-import com.hypixel.hytale.server.core.util.NotificationUtil;
 import faye.rpg.Logger;
 import faye.rpg.modules.party.PartyRegistry;
 import faye.rpg.modules.party.components.PartyLeader;
 import faye.rpg.modules.party.components.PartyMember;
-import faye.rpg.modules.party.events.PartyMemberJoin;
-import faye.rpg.modules.party.ui.PartyHud;
-import faye.rpg.ui.CustomHudManager;
+import faye.rpg.modules.party.events.PartyMemberJoinEvent;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 public class PartyCreateCommand extends AbstractPlayerCommand {
@@ -51,7 +44,7 @@ public class PartyCreateCommand extends AbstractPlayerCommand {
         store.addComponent(ref, PartyLeader.getComponentType(), new PartyLeader());
 
         logger.info("Dispatching party member join event");
-        PartyMemberJoin.dispatch(party.getUuid(), playerRef.getUuid(), world);
+        PartyMemberJoinEvent.dispatch(party.getUuid(), playerRef.getUuid(), world);
 
 
     }

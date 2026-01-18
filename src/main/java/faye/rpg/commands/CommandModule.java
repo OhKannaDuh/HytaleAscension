@@ -4,7 +4,6 @@ import com.google.inject.Scopes;
 import com.google.inject.multibindings.Multibinder;
 import com.hypixel.hytale.server.core.command.system.AbstractCommand;
 import faye.rpg.DependencyModule;
-import faye.rpg.modules.stats.commands.SkillPointsCommand;
 
 public class CommandModule extends DependencyModule {
     @Override

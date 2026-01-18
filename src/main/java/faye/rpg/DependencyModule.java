@@ -5,7 +5,7 @@ import com.google.inject.Scopes;
 import com.google.inject.multibindings.Multibinder;
 import faye.rpg.commands.IAscensionSubcommand;
 import faye.rpg.components.IAscensionComponent;
-import faye.rpg.events.IAscensionEventHandler;
+import faye.rpg.handlers.IAscensionEventHandler;
 import faye.rpg.lifecycle.hooks.*;
 import faye.rpg.systems.IAscensionEntitySystem;
 import faye.rpg.ui.IAscensionHudElementFactory;

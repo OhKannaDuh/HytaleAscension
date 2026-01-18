@@ -1,17 +1,17 @@
-package faye.rpg.modules.party.events;
+package faye.rpg.modules.party.handlers;
 
 import com.google.inject.Inject;
-import faye.rpg.events.IAscensionEventHandler;
+import faye.rpg.handlers.IAscensionEventHandler;
 import faye.rpg.events.player_lifecycle.SetupPlayerHudEvent;
 import faye.rpg.modules.party.PartyRegistry;
 import faye.rpg.modules.party.components.PartyMember;
 import faye.rpg.modules.party.ui.PartyHud;
 
-public class HandleInitialPartyHud implements IAscensionEventHandler<SetupPlayerHudEvent> {
+public class SetupPlayerHudEventHandler implements IAscensionEventHandler<SetupPlayerHudEvent> {
     private final PartyRegistry registry;
 
     @Inject
-    public HandleInitialPartyHud(PartyRegistry registry) {
+    public SetupPlayerHudEventHandler(PartyRegistry registry) {
         this.registry = registry;
     }
 

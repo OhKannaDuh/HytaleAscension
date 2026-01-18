@@ -1,11 +1,9 @@
 package faye.rpg;
 
 import com.google.inject.Scopes;
-import com.google.inject.multibindings.Multibinder;
 import faye.rpg.commands.CommandModule;
 import faye.rpg.components.ComponentModule;
 import faye.rpg.events.EventModule;
-import faye.rpg.events.IAscensionEventHandler;
 import faye.rpg.lifecycle.LifecycleModule;
 import faye.rpg.modules.ModuleManagerModule;
 import faye.rpg.systems.SystemModule;

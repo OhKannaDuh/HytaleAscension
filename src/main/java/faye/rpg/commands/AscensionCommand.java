@@ -2,7 +2,6 @@ package faye.rpg.commands;
 
 import com.google.inject.Inject;
 import com.hypixel.hytale.server.core.command.system.basecommands.AbstractCommandCollection;
-import faye.rpg.modules.stats.commands.SkillPointsCommand;
 
 import java.util.Set;
 

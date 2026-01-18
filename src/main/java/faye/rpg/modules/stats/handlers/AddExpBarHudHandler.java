@@ -1,8 +1,9 @@
-package faye.rpg.modules.stats.events;
+package faye.rpg.modules.stats.handlers;
 
-import faye.rpg.events.IAscensionEventHandler;
+import com.hypixel.hytale.server.core.modules.entitystats.EntityStatMap;
+import faye.rpg.handlers.IAscensionEventHandler;
 import faye.rpg.events.player_lifecycle.SetupPlayerHudEvent;
-import faye.rpg.modules.stats.components.AscensionStats;
+import faye.rpg.modules.stats.components.AscensionExp;
 import faye.rpg.modules.stats.ui.ExpBarHud;
 
 public class AddExpBarHudHandler implements IAscensionEventHandler<SetupPlayerHudEvent> {
@@ -14,10 +15,14 @@ public class AddExpBarHudHandler implements IAscensionEventHandler<SetupPlayerHu
     @Override
     public void execute(SetupPlayerHudEvent event) {
         var payload = event.getPayload();
-        final var type = AscensionStats.getComponentType();
 
-        var rpgStats = payload.store.getComponent(payload.entity, type);
-        if (rpgStats == null) {
+        var exp = payload.store.getComponent(payload.entity, AscensionExp.getComponentType());
+        if (exp == null) {
+            return;
+        }
+
+        var stats = payload.store.getComponent(payload.entity, EntityStatMap.getComponentType());
+        if (stats == null) {
             return;
         }
 
@@ -26,6 +31,6 @@ public class AddExpBarHudHandler implements IAscensionEventHandler<SetupPlayerHu
             return;
         }
 
-        hud.updateFromComponent(rpgStats);
+        hud.updateFromComponent(exp, stats);
     }
 }

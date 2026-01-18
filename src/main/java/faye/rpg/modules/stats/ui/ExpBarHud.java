@@ -2,9 +2,11 @@ package faye.rpg.modules.stats.ui;
 
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.entity.entities.player.hud.CustomUIHud;
+import com.hypixel.hytale.server.core.modules.entitystats.EntityStatMap;
 import com.hypixel.hytale.server.core.ui.builder.UICommandBuilder;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
-import faye.rpg.modules.stats.components.AscensionStats;
+import faye.rpg.modules.stats.components.AscensionExp;
+import faye.rpg.modules.stats.data.AscensionStats;
 import faye.rpg.ui.IAscensionHudElement;
 import faye.rpg.ui.IAscensionHudElementFactory;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -28,11 +30,14 @@ public final class ExpBarHud extends CustomUIHud implements IAscensionHudElement
         updateUiValues(ui);
     }
 
-    public void updateFromComponent(AscensionStats rpg) {
-        this.level = rpg.getLevel();
-        this.exp = rpg.getExpIntoLevel();
-        this.expToNextLevel = rpg.getRequiredExpForLevelUpAt();
-        this.unspentSkillPoints = rpg.getRemainingSkillPoints();
+    public void updateFromComponent(AscensionExp exp, EntityStatMap stats) {
+        this.level = exp.getLevel();
+        this.exp = exp.getExpIntoLevel();
+        this.expToNextLevel = exp.getRequiredExpForLevelUpAt();
+
+        var total = exp.getTotalAttributePoints();
+        var invested = AscensionStats.getInvestedPoints(stats);
+        this.unspentSkillPoints = total - invested;
 
         UICommandBuilder ui = new UICommandBuilder();
         updateUiValues(ui);

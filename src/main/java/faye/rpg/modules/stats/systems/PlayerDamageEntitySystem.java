@@ -9,10 +9,11 @@ import com.hypixel.hytale.component.system.EntityEventSystem;
 import com.hypixel.hytale.component.system.ISystem;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.modules.entity.damage.Damage;
+import com.hypixel.hytale.server.core.modules.entitystats.EntityStatMap;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.npc.entities.NPCEntity;
-import faye.rpg.modules.stats.components.AscensionStats;
+import faye.rpg.modules.stats.components.AscensionExp;
 import faye.rpg.modules.stats.events.LevelUpEvent;
 import faye.rpg.systems.IAscensionEntitySystem;
 import faye.rpg.ui.CustomHudManager;
@@ -38,8 +39,8 @@ public class PlayerDamageEntitySystem extends EntityEventSystem<EntityStore, Dam
         }
 
         var sourceRef = source.getRef();
-        var rpgStats = sourceRef.getStore().getComponent(sourceRef, AscensionStats.getComponentType());
-        if (rpgStats == null) {
+        var exp = sourceRef.getStore().getComponent(sourceRef, AscensionExp.getComponentType());
+        if (exp == null) {
             return;
         }
 
@@ -47,11 +48,15 @@ public class PlayerDamageEntitySystem extends EntityEventSystem<EntityStore, Dam
         if (player == null) {
             return;
         }
-        var levelledUp = rpgStats.addExp((int) Math.floor(damage.getAmount()));
+        var levelledUp = exp.addExp((int) Math.floor(damage.getAmount()));
         if (player.getHudManager().getCustomHud() instanceof CustomHudManager wrapper) {
-            var exp = wrapper.get(ExpBarHud.class);
-            if (exp != null) {
-                exp.updateFromComponent(rpgStats);
+            var hud = wrapper.get(ExpBarHud.class);
+            if (hud != null) {
+                var stats = store.getComponent(sourceRef, EntityStatMap.getComponentType());
+                if (stats != null) {
+                    hud.updateFromComponent(exp, stats);
+                }
+
             }
         }
 
@@ -66,7 +71,7 @@ public class PlayerDamageEntitySystem extends EntityEventSystem<EntityStore, Dam
                 return;
             }
 
-            LevelUpEvent.dispatch(rpgStats.getLevel(), playerRef, world);
+            LevelUpEvent.dispatch(exp.getLevel(), playerRef, world);
         }
     }
 

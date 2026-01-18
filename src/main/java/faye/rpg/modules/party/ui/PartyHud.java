@@ -8,7 +8,7 @@ import com.hypixel.hytale.server.core.ui.builder.UICommandBuilder;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.World;
 import faye.rpg.modules.party.Party;
-import faye.rpg.modules.stats.components.AscensionStats;
+import faye.rpg.modules.stats.components.AscensionExp;
 import faye.rpg.ui.IAscensionHudElement;
 import faye.rpg.ui.IAscensionHudElementFactory;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -48,7 +48,7 @@ public class PartyHud extends CustomUIHud implements IAscensionHudElement {
                 continue;
             }
 
-            var rpg = store.getComponent(entity, AscensionStats.getComponentType());
+            var rpg = store.getComponent(entity, AscensionExp.getComponentType());
             if (rpg == null) {
                 continue;
             }

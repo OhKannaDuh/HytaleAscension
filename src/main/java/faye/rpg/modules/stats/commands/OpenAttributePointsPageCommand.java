@@ -12,16 +12,16 @@ import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import faye.rpg.Logger;
 import faye.rpg.commands.IAscensionSubcommand;
-import faye.rpg.modules.stats.ui.SkillPointPage;
+import faye.rpg.modules.stats.ui.AttributePointPage;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
-public class SkillPointsCommand extends AbstractPlayerCommand implements IAscensionSubcommand {
+public class OpenAttributePointsPageCommand extends AbstractPlayerCommand implements IAscensionSubcommand {
     private final Logger logger;
 
     @Inject
-    public SkillPointsCommand(Logger logger) {
-        super("skillpoints", "Opens the Skill Points ui");
-        this.addAliases("sp");
+    public OpenAttributePointsPageCommand(Logger logger) {
+        super("attributes", "Opens the Skill Points ui");
+        this.addAliases("a");
         this.logger = logger;
     }
 
@@ -32,7 +32,7 @@ public class SkillPointsCommand extends AbstractPlayerCommand implements IAscens
             return;
         }
 
-        player.getPageManager().openCustomPage(ref, store, new SkillPointPage(playerRef, logger));
+        player.getPageManager().openCustomPage(ref, store, new AttributePointPage(playerRef, logger));
     }
 
     @Override

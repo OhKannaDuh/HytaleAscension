@@ -1,38 +1,39 @@
-package faye.rpg.modules.party.events;
+package faye.rpg.modules.party.handlers;
 
 import com.google.inject.Inject;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import faye.rpg.Logger;
-import faye.rpg.events.IAscensionEventHandler;
+import faye.rpg.handlers.IAscensionEventHandler;
 import faye.rpg.modules.party.PartyRegistry;
+import faye.rpg.modules.party.events.PartyMemberJoinEvent;
 import faye.rpg.modules.party.ui.PartyHud;
 import faye.rpg.ui.CustomHudManager;
 
-public class HandlePartyMemberJoin implements IAscensionEventHandler<PartyMemberJoin> {
+public class PartyMemberJoinEventHandler implements IAscensionEventHandler<PartyMemberJoinEvent> {
     private final PartyRegistry registry;
 
     private final Logger logger;
 
     @Inject
-    public HandlePartyMemberJoin(PartyRegistry registry, Logger logger) {
+    public PartyMemberJoinEventHandler(PartyRegistry registry, Logger logger) {
         this.registry = registry;
         this.logger = logger;
     }
 
     @Override
-    public Class<PartyMemberJoin> eventType() {
-        return PartyMemberJoin.class;
+    public Class<PartyMemberJoinEvent> eventType() {
+        return PartyMemberJoinEvent.class;
     }
 
     @Override
-    public void execute(PartyMemberJoin event) {
-        var party = registry.getParty(event.getPartyUuid());
+    public void execute(PartyMemberJoinEvent event) {
+        var party = registry.getParty(event.partyUuid());
         if (party == null) {
             logger.warn("[HandlePartyMemberJoin] Could not get party from registry.");
             return;
         }
 
-        var world = event.getWorld();
+        var world = event.world();
         for (var member : party.getMembers()) {
             var ref = world.getEntityRef(member);
             if (ref == null) {

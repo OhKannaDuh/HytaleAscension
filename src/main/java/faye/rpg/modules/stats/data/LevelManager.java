@@ -49,7 +49,7 @@ public class LevelManager {
         return (int) (100 * s);
     }
 
-    public static int getTotalSkillPointsForLevel(int level) {
+    public static int getTotalAttributePointsForLevel(int level) {
         if (level <= 1) {
             return 0;
         }

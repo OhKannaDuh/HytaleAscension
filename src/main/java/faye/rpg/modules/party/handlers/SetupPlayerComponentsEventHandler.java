@@ -1,17 +1,17 @@
-package faye.rpg.modules.party.events;
+package faye.rpg.modules.party.handlers;
 
 import com.google.inject.Inject;
-import faye.rpg.events.IAscensionEventHandler;
+import faye.rpg.handlers.IAscensionEventHandler;
 import faye.rpg.events.player_lifecycle.SetupPlayerComponentsEvent;
 import faye.rpg.modules.party.PartyRegistry;
 import faye.rpg.modules.party.components.PartyLeader;
 import faye.rpg.modules.party.components.PartyMember;
 
-public class HandleInitialPartyState implements IAscensionEventHandler<SetupPlayerComponentsEvent> {
+public class SetupPlayerComponentsEventHandler implements IAscensionEventHandler<SetupPlayerComponentsEvent> {
     private final PartyRegistry registry;
 
     @Inject
-    public HandleInitialPartyState(PartyRegistry registry) {
+    public SetupPlayerComponentsEventHandler(PartyRegistry registry) {
         this.registry = registry;
     }
 
@@ -28,14 +28,14 @@ public class HandleInitialPartyState implements IAscensionEventHandler<SetupPlay
 
         var member = payload.store.getComponent(payload.entity, memberType);
         if (member == null) {
-            payload.store.removeComponent(payload.entity, leaderType);
+            payload.store.removeComponentIfExists(payload.entity, leaderType);
             return;
         }
 
         var party = registry.getParty(member.getPartyUuid());
         if (party == null) {
             payload.store.removeComponent(payload.entity, memberType);
-            payload.store.removeComponent(payload.entity, leaderType);
+            payload.store.removeComponentIfExists(payload.entity, leaderType);
         }
     }
 }

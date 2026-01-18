@@ -9,8 +9,9 @@ import com.hypixel.hytale.component.system.ISystem;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.modules.entity.damage.DeathComponent;
 import com.hypixel.hytale.server.core.modules.entity.damage.DeathSystems;
+import com.hypixel.hytale.server.core.modules.entitystats.EntityStatMap;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import faye.rpg.modules.stats.components.AscensionStats;
+import faye.rpg.modules.stats.components.AscensionExp;
 import faye.rpg.modules.stats.data.LevelManager;
 import faye.rpg.systems.IAscensionEntitySystem;
 import faye.rpg.ui.CustomHudManager;
@@ -33,8 +34,8 @@ public class PlayerDeathSystem extends DeathSystems.OnDeathSystem implements IAs
 
     @Override
     public void onComponentAdded(@NonNull Ref<EntityStore> ref, @NonNull DeathComponent deathComponent, @NonNull Store<EntityStore> store, @NonNull CommandBuffer<EntityStore> commandBuffer) {
-        var rpgStats = store.getComponent(ref, AscensionStats.getComponentType());
-        if (rpgStats == null) {
+        var exp = store.getComponent(ref, AscensionExp.getComponentType());
+        if (exp == null) {
             return;
         }
 
@@ -43,7 +44,7 @@ public class PlayerDeathSystem extends DeathSystems.OnDeathSystem implements IAs
             return;
         }
 
-        int total = rpgStats.getTotalExp();
+        int total = exp.getTotalExp();
         int level = LevelManager.getLevelFromTotalExp(total);
 
         int levelFloorTotal = LevelManager.getTotalExpRequiredForLevel(level);
@@ -54,11 +55,14 @@ public class PlayerDeathSystem extends DeathSystems.OnDeathSystem implements IAs
 
         int newTotal = Math.max(levelFloorTotal, total - loss);
 
-        rpgStats.setTotalExp(newTotal);
+        exp.setTotalExp(newTotal);
         if (player.getHudManager().getCustomHud() instanceof CustomHudManager wrapper) {
-            var exp = wrapper.get(ExpBarHud.class);
-            if (exp != null) {
-                exp.updateFromComponent(rpgStats);
+            var hud = wrapper.get(ExpBarHud.class);
+            if (hud != null) {
+                var stats = store.getComponent(ref, EntityStatMap.getComponentType());
+                if (stats != null) {
+                    hud.updateFromComponent(exp, stats);
+                }
             }
         }
     }

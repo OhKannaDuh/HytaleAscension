@@ -1,4 +1,4 @@
-package faye.rpg.events;
+package faye.rpg.handlers;
 
 import com.google.inject.Inject;
 import com.hypixel.hytale.component.Ref;
@@ -17,7 +17,6 @@ import faye.rpg.events.player_lifecycle.SetupPlayerComponentsEvent;
 import faye.rpg.events.player_lifecycle.SetupPlayerDoneEvent;
 import faye.rpg.events.player_lifecycle.SetupPlayerHudEvent;
 import faye.rpg.ui.CustomHudManager;
-import faye.rpg.ui.IAscensionHudElement;
 import faye.rpg.ui.IAscensionHudElementFactory;
 
 import java.util.Set;

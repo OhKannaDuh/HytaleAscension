@@ -2,25 +2,22 @@ package faye.rpg.modules.party;
 
 import com.google.inject.Scopes;
 import com.google.inject.multibindings.Multibinder;
-import com.hypixel.hytale.server.core.HytaleServer;
 import faye.rpg.DependencyModule;
 import faye.rpg.commands.IAscensionSubcommand;
 import faye.rpg.components.IAscensionComponent;
-import faye.rpg.events.IAscensionEventHandler;
+import faye.rpg.handlers.IAscensionEventHandler;
 import faye.rpg.modules.party.commands.PartyCommand;
 import faye.rpg.modules.party.components.PartyComponentManager;
 import faye.rpg.modules.party.components.PartyLeader;
 import faye.rpg.modules.party.components.PartyMember;
-import faye.rpg.modules.party.events.HandleInitialPartyHud;
-import faye.rpg.modules.party.events.HandleInitialPartyState;
-import faye.rpg.modules.party.events.HandlePartyMemberJoin;
-import faye.rpg.modules.party.events.HandlePartyMemberLeave;
+import faye.rpg.modules.party.handlers.SetupPlayerHudEventHandler;
+import faye.rpg.modules.party.handlers.SetupPlayerComponentsEventHandler;
+import faye.rpg.modules.party.handlers.PartyMemberJoinEventHandler;
+import faye.rpg.modules.party.handlers.PartyMemberLeaveEventHandler;
 import faye.rpg.modules.party.systems.PartyUpdateSystem;
 import faye.rpg.modules.party.ui.PartyHud;
 import faye.rpg.systems.IAscensionEntitySystem;
 import faye.rpg.ui.IAscensionHudElementFactory;
-
-import java.util.concurrent.TimeUnit;
 
 public class PartyModule extends DependencyModule {
     @Override
@@ -49,10 +46,10 @@ public class PartyModule extends DependencyModule {
 
     @Override
     protected void registerEventHandlers(Multibinder<IAscensionEventHandler> binder) {
-        binder.addBinding().to(HandleInitialPartyState.class);
-        binder.addBinding().to(HandleInitialPartyHud.class);
-        binder.addBinding().to(HandlePartyMemberJoin.class);
-        binder.addBinding().to(HandlePartyMemberLeave.class);
+        binder.addBinding().to(SetupPlayerComponentsEventHandler.class);
+        binder.addBinding().to(SetupPlayerHudEventHandler.class);
+        binder.addBinding().to(PartyMemberJoinEventHandler.class);
+        binder.addBinding().to(PartyMemberLeaveEventHandler.class);
     }
 
     @Override

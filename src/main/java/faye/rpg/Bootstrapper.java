@@ -1,8 +1,18 @@
+/*
+ *
+ *  * Copyright © 2026 OhKannaDuh, Faye
+ *  * Licensed under the GNU AGPL v3.0 or later.
+ *  * Source: https://github.com/OhKannaDuh/HytaleAscension
+ *
+ */
+
 package faye.rpg;
 
 import com.google.inject.Scopes;
 import com.google.inject.multibindings.Multibinder;
 import faye.rpg.commands.CommandModule;
+import faye.rpg.commands.IAscensionSubcommand;
+import faye.rpg.commands.SourceCommand;
 import faye.rpg.components.ComponentModule;
 import faye.rpg.events.EventModule;
 import faye.rpg.handlers.IAscensionEventHandler;
@@ -35,5 +45,9 @@ public class Bootstrapper extends DependencyModule {
 
     protected void registerEventHandlers(Multibinder<IAscensionEventHandler> binder) {
         binder.addBinding().to(AttributePointsAssignmentChangedEventHandler.class);
+    }
+
+    protected void registerSubcommands(Multibinder<IAscensionSubcommand> binder) {
+        binder.addBinding().to(SourceCommand.class);
     }
 }

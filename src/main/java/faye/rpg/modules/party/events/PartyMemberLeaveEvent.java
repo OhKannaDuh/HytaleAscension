@@ -1,3 +1,11 @@
+/*
+ *
+ *  * Copyright © 2026 OhKannaDuh, Faye
+ *  * Licensed under the GNU AGPL v3.0 or later.
+ *  * Source: https://github.com/OhKannaDuh/HytaleAscension
+ *
+ */
+
 package faye.rpg.modules.party.events;
 
 import com.hypixel.hytale.component.system.CancellableEcsEvent;

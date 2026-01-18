@@ -6,12 +6,7 @@ import faye.rpg.events.player_lifecycle.SetupPlayerHudEvent;
 import faye.rpg.modules.stats.components.AscensionExp;
 import faye.rpg.modules.stats.ui.ExpBarHud;
 
-public class AddExpBarHudHandler implements IAscensionEventHandler<SetupPlayerHudEvent> {
-    @Override
-    public Class<SetupPlayerHudEvent> eventType() {
-        return SetupPlayerHudEvent.class;
-    }
-
+public class SetupPlayerHudEventHandler implements IAscensionEventHandler<SetupPlayerHudEvent> {
     @Override
     public void execute(SetupPlayerHudEvent event) {
         var payload = event.getPayload();

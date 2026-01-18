@@ -15,7 +15,7 @@ java {
 
 repositories { mavenCentral() }
 
-val filesDir = file("C:/Code/hytale-mods/files")
+val filesDir = file("C:/Code/hytale-mods/files/server")
 val modsDir = filesDir.resolve("dev-mods")
 
 val appData = System.getenv("APPDATA") ?: error("APPDATA environment variable not set")
@@ -45,7 +45,7 @@ tasks.named<Jar>("jar") {
 }
 
 tasks.named<ShadowJar>("shadowJar") {
-    archiveBaseName.set("mod-learning")
+    archiveBaseName.set("hytale-ascension")
     archiveClassifier.set("")
 
     mergeServiceFiles()
@@ -64,7 +64,7 @@ val deployMod = tasks.register("deployMod") {
 
         modsDir.mkdirs()
 
-        val out = modsDir.resolve("mod-learning.jar")
+        val out = modsDir.resolve("hytale-ascension.jar")
         shaded.copyTo(out, overwrite = true)
     }
 }

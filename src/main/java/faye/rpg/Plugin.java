@@ -29,10 +29,6 @@ public class Plugin extends JavaPlugin {
         lifecycle.preSetup();
         lifecycle.setup();
         lifecycle.postSetup();
-
-        Universe universe = Universe.get();
-        var world = universe.getDefaultWorld();
-
     }
 
     @Override

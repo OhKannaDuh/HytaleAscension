@@ -5,7 +5,7 @@ import faye.rpg.events.player_lifecycle.SetupPlayerComponentsEvent;
 import faye.rpg.modules.stats.components.AscensionExp;
 import faye.rpg.modules.stats.events.AttributePointsAssignmentChangedEvent;
 
-public class AddRpgStatsHandler implements IAscensionEventHandler<SetupPlayerComponentsEvent> {
+public class SetupPlayerComponentsEventHandler implements IAscensionEventHandler<SetupPlayerComponentsEvent> {
     @Override
     public Class<SetupPlayerComponentsEvent> eventType() {
         return SetupPlayerComponentsEvent.class;

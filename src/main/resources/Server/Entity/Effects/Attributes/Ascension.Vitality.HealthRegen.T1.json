@@ -1,0 +1,9 @@
+{
+  "Infinite": true,
+  "Debuff": false,
+  "StatModifiers": {
+    "Health": 0.2
+  },
+  "ValueType": "Percent",
+  "DamageCalculatorCooldown": 1.0
+}

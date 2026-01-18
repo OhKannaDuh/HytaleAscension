@@ -10,10 +10,7 @@ import faye.rpg.modules.party.commands.PartyCommand;
 import faye.rpg.modules.party.components.PartyComponentManager;
 import faye.rpg.modules.party.components.PartyLeader;
 import faye.rpg.modules.party.components.PartyMember;
-import faye.rpg.modules.party.handlers.SetupPlayerHudEventHandler;
-import faye.rpg.modules.party.handlers.SetupPlayerComponentsEventHandler;
-import faye.rpg.modules.party.handlers.PartyMemberJoinEventHandler;
-import faye.rpg.modules.party.handlers.PartyMemberLeaveEventHandler;
+import faye.rpg.modules.party.handlers.*;
 import faye.rpg.modules.party.systems.PartyUpdateSystem;
 import faye.rpg.modules.party.ui.PartyHud;
 import faye.rpg.systems.IAscensionEntitySystem;
@@ -50,6 +47,8 @@ public class PartyModule extends DependencyModule {
         binder.addBinding().to(SetupPlayerHudEventHandler.class);
         binder.addBinding().to(PartyMemberJoinEventHandler.class);
         binder.addBinding().to(PartyMemberLeaveEventHandler.class);
+
+        binder.addBinding().to(AddExpEventHandler.class);
     }
 
     @Override

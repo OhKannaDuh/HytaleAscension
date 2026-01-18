@@ -1,9 +1,19 @@
 package faye.rpg.handlers;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.function.Consumer;
 
 public interface IAscensionEventHandler<T> extends Consumer<T> {
-    Class<T> eventType();
+    default Class<T> eventType() {
+        for (Type type : getClass().getGenericInterfaces()) {
+            if (type instanceof ParameterizedType pt && pt.getRawType() == IAscensionEventHandler.class) {
+                return (Class<T>) pt.getActualTypeArguments()[0];
+            }
+        }
+
+        throw new IllegalStateException("Cannot determine event type for " + getClass());
+    }
 
     void execute(T event);
 

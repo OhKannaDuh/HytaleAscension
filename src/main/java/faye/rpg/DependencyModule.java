@@ -5,6 +5,7 @@ import com.google.inject.Scopes;
 import com.google.inject.multibindings.Multibinder;
 import faye.rpg.commands.IAscensionSubcommand;
 import faye.rpg.components.IAscensionComponent;
+import faye.rpg.effects.IAscensionEffectConsumer;
 import faye.rpg.handlers.IAscensionEventHandler;
 import faye.rpg.lifecycle.hooks.*;
 import faye.rpg.systems.IAscensionEntitySystem;
@@ -18,6 +19,7 @@ public abstract class DependencyModule extends AbstractModule {
         registerEventHandlers(Multibinder.newSetBinder(binder(), IAscensionEventHandler.class));
         registerEntitySystems(Multibinder.newSetBinder(binder(), IAscensionEntitySystem.class));
         registerHudElementFactories(Multibinder.newSetBinder(binder(), IAscensionHudElementFactory.class));
+        registerEffectConsumers(Multibinder.newSetBinder(binder(), IAscensionEffectConsumer.class));
         register();
     }
 
@@ -34,6 +36,9 @@ public abstract class DependencyModule extends AbstractModule {
     }
 
     protected void registerHudElementFactories(Multibinder<IAscensionHudElementFactory> binder) {
+    }
+
+    protected void registerEffectConsumers(Multibinder<IAscensionEffectConsumer> binder) {
     }
 
     protected abstract void register();

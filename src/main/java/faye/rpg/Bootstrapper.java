@@ -1,11 +1,14 @@
 package faye.rpg;
 
 import com.google.inject.Scopes;
+import com.google.inject.multibindings.Multibinder;
 import faye.rpg.commands.CommandModule;
 import faye.rpg.components.ComponentModule;
 import faye.rpg.events.EventModule;
+import faye.rpg.handlers.IAscensionEventHandler;
 import faye.rpg.lifecycle.LifecycleModule;
 import faye.rpg.modules.ModuleManagerModule;
+import faye.rpg.modules.stats.handlers.AttributePointsAssignmentChangedEventHandler;
 import faye.rpg.systems.SystemModule;
 
 public class Bootstrapper extends DependencyModule {
@@ -28,5 +31,9 @@ public class Bootstrapper extends DependencyModule {
 
         bind(Plugin.class).toInstance(plugin);
         bind(Logger.class).in(Scopes.SINGLETON);
+    }
+
+    protected void registerEventHandlers(Multibinder<IAscensionEventHandler> binder) {
+        binder.addBinding().to(AttributePointsAssignmentChangedEventHandler.class);
     }
 }

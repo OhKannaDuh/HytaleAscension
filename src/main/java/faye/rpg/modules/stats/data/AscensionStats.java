@@ -1,5 +1,6 @@
 package faye.rpg.modules.stats.data;
 
+import com.hypixel.hytale.protocol.OverlapBehavior;
 import com.hypixel.hytale.server.core.modules.entitystats.EntityStatMap;
 import com.hypixel.hytale.server.core.modules.entitystats.asset.EntityStatType;
 

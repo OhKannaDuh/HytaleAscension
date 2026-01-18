@@ -9,6 +9,7 @@ import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.protocol.packets.interface_.CustomPageLifetime;
 import com.hypixel.hytale.protocol.packets.interface_.CustomUIEventBindingType;
 import com.hypixel.hytale.server.core.Message;
+import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.entity.entities.player.pages.InteractiveCustomUIPage;
 import com.hypixel.hytale.server.core.modules.entitystats.EntityStatMap;
 import com.hypixel.hytale.server.core.ui.builder.EventData;
@@ -21,6 +22,7 @@ import faye.rpg.modules.stats.components.AscensionExp;
 import faye.rpg.modules.stats.data.AscensionStats;
 import faye.rpg.modules.stats.data.StatId;
 import faye.rpg.modules.stats.events.AttributePointsAssignmentChangedEvent;
+import faye.rpg.ui.CustomHudManager;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import javax.annotation.Nonnull;
@@ -63,7 +65,7 @@ public class AttributePointPage extends InteractiveCustomUIPage<AttributePointPa
 
             ui.set(label + ".TextSpans", Message.raw(name + "(" + points + ")"));
             ui.set(sub + ".Disabled", points <= 0);
-            ui.set(add + ".Disabled", remaining <= 0);
+            ui.set(add + ".Disabled", remaining <= 0 || points >= 30);
         }
 
         this.sendUpdate(ui);
@@ -154,12 +156,29 @@ public class AttributePointPage extends InteractiveCustomUIPage<AttributePointPa
             stats.setStatValue(index, current + delta);
             updateFromComponent(exp, stats);
 
-            var player = store.getComponent(ref, PlayerRef.getComponentType());
+            var playerRef = store.getComponent(ref, PlayerRef.getComponentType());
+            if (playerRef == null) {
+                return;
+            }
+
+            var player = store.getComponent(ref, Player.getComponentType());
             if (player == null) {
                 return;
             }
 
-            AttributePointsAssignmentChangedEvent.dispatch(player, store.getExternalData().getWorld());
+            AttributePointsAssignmentChangedEvent.dispatch(playerRef, store.getExternalData().getWorld());
+
+            if (!(player.getHudManager().getCustomHud() instanceof CustomHudManager manager)) {
+                return;
+            }
+
+            var expHud = manager.get(ExpBarHud.class);
+            if (expHud == null) {
+                return;
+            }
+
+            expHud.updateFromComponent(exp, stats);
+
             return;
         }
 
